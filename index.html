@@ -1,0 +1,319 @@
+<html>
+	<head>
+		<title> рыбалка лютая </title>
+
+		<style>
+			body {
+				background: url(3.jpg);
+				background-size: 100% 100%;
+				overflow: hidden;
+			}
+
+			.udochka {
+				background: url(udochka3.png);
+				background-size: 10px 35px;
+				position: absolute;
+				width: 10px;
+				height: 250px;
+				bottom: 0;
+				right: 50px;
+
+
+			}
+
+			.udochka {
+				transform: rotate(360deg) scale(1.1);
+	
+			}
+
+
+			.poplavok {
+				background: url(p1.png);
+				background-size: 5px 25px;
+				position: absolute;
+				width: 5px;
+				height: 25px;
+				top: 0;
+				left: 0;
+				z-index: 1;
+			}
+			.vedro {
+				background: url(vedro.png);
+				background-size: 70px 100px;
+				position: absolute;
+				width: 50px;
+				height: 70px;
+				bottom: 100px;
+				right: 100px;
+			}
+
+			.kruk {
+				background: url(kruk.png);
+				background-size: 200px 100px;
+				transition-duration
+				position: absolute;
+				width: 200px;
+				height: 100px;
+				bottom: 50px;
+				left: 50px;
+				cursor: pointer;
+				opacity: 0.5;
+
+			}
+
+			.kruk:hover  {
+				transform: rotate(-25deg);
+				opacity: 1;
+			}
+			.tab {
+				background: url(tab.jpg);
+				display: none;
+				background-size: 400px 250px;
+				width: 400px;
+				height: 250px;
+				margin-top: 5%;
+				z-index: 999;
+			} 
+			.tab-text {
+				padding-top: 5%;
+				font-size: 25px;
+			}
+
+
+
+			
+
+			.menu {
+				position: absolute;
+				top: 30px;
+				right: 50px;
+			}
+
+			.location {
+				width: 80px;
+				height: 40px;
+				border-radius: 5px;
+				border: solid 1px yellow;
+				cursor: pointer;
+			}
+
+			.fish {
+				margin-top: 20px;
+				width: 200px;
+				height: 100;
+
+			}
+
+			.label {
+				margin-top: 20px;
+				font-size: 28px;
+
+
+			}
+		</style>
+	</head>
+	<body onmousedown="setFloat()">
+		<div>лютая рыбалка в разных  местах реки и озера. Заходи</div>
+		<div class="udochka" id="udochka"></div>
+		<div class="poplavok" id="poplavok"></div>
+		<div class="vedro" id="vedro"></div>
+		<div class="kruk" id="kruk" onclick="hooking()"></div>
+
+		<center>
+			<div class="tab" id="tab">
+				<div class="tab-text">Вы поймали</div>
+				<img src="" class="fish" id="fish">
+				<div class="label" id="label">Карп, 500 грамм редкий трофей(25%)</div>
+			</div>
+			<div class="label" id="label"></div>
+		 </center>
+
+
+		<div class="menu" id="menu">
+			<img onclick="setLocation('1.jpg')" class="location" src="1.jpg">
+			<img onclick="setLocation('2.jpg')"class="location" src="2.jpg">
+			<img onclick="setLocation('3.jpg')"class="location" src="3.jpg">
+			<img onclick="setLocation('4.jpg')"class="location" src="4.jpg">
+			<img onclick="setLocation('5.jpg')"class="location" src="5.jpg">
+			<br>
+			<img onclick="setLocation('6.jpg')" class="location" src="6.jpg">
+			<img onclick="setLocation('7.jpg')"class="location" src="7.jpg">
+			<img onclick="setLocation('8.jpg')"class="location" src="8.jpg">
+			<img onclick="setLocation('9.jpg')"class="location" src="9.jpg">
+			<img onclick="setLocation('10.jpg')"class="location" src="10.jpg">
+		</div>	
+
+		<script type="text/javascript">
+			alert("доброе пожаловать");
+			alert("как дела");
+			alert("это игра лютая рыбалка - про рыбалку");
+			alert("удачной игры!");
+
+			function setFloat() {
+				let x = window.event.clientX;
+				let y = window.event.clientY;
+
+				if (y > 260 && y < 700){
+					unbite();
+					let poplavok = document.getElementById("poplavok");
+					let udochka = document.getElementById("udochka");
+
+					poplavok.style.left = x + "px";
+					poplavok.style.top = y + "px";
+
+					udochka.style.left = (x + 50) + "px";
+
+					PSO("ud1.mp3");
+
+					startBite();
+				}	
+			}
+
+			function startBite(){
+				const randomTimeout = Math.floor(Math.random() * 11)
+				setTimeout(bite, 5000);
+			}
+
+			function setLocation(locationName){
+				document.body.style.background = "url(" + locationName + ")"
+				document.body.style.backgroundSize = "100% 100%";
+				playSound("ud1.mp3");
+			}
+
+			var audio = null;
+
+			function playSound(source) {
+				if (audio) {
+					audio.pause();
+
+				}
+				audio = new Audio(source);
+				audio.play();
+			}
+
+			function PSO(source) {
+				const onceaudio = new Audio(source)
+				onceaudio.play()
+			}
+
+			var isBite = false;
+
+			function bite() {
+				isBite = true;
+				const poplavok = document.getElementById("poplavok");
+				poplavok.style.background = "url(p2.png)";
+				poplavok.style.backgroundSize = "5px 25px";
+			}
+
+			function unbite() {
+				isBite = false;
+				let poplavok = document.getElementById("poplavok")
+				poplavok.style.background = "url(p1.png)";
+				poplavok.style.backgroundSize = "5px 25px";
+			}
+
+			function hooking() {
+				if (isBite == true) {
+					getFish();
+					unbite();
+				} else {
+					alert("не получилось");
+				}
+			}
+			function getFish(){
+				newFish();
+
+				let tab = document.getElementById("tab");
+				tab.style.display = "block";
+				setTimeout(removeFish, 5000);
+
+				let udochka = document.getElementById("udochka")
+				udochka.style.display = "none"
+
+				let poplavok = document.getElementById("poplavok")
+				poplavok.style.display = "none"
+			}
+
+			function removeFish(){
+				let tab = document.getElementById("tab");
+			  	tab.style.display = "none";
+
+			  	let udochka = document.getElementById("udochka")
+				udochka.style.display = "block"
+
+				let poplavok = document.getElementById("poplavok")
+				poplavok.style.display = "block"
+			}
+
+			function newFish() {
+				const rand = Math.floor(Math.random() * 7)
+
+				if (rand == 0){
+					const mass = Math.floor(Math.random() * 11 ) * 10000.13 + 1;
+					document.getElementById("label").innerHTML = "маленькая рыбка " + mass + " rp. ";
+					changeImage("riba2.jpg")
+				}
+
+				if (rand == 1){
+					const mass = Math.floor(Math.random() * 11 ) * 10.25 + 2;
+					document.getElementById("label").innerHTML = "карась " + mass + " rp. ";
+					changeImage("karas.png")
+				}
+
+				if (rand == 2){
+					const mass = Math.floor(Math.random() * 11 ) * 10.12 + 2;
+					document.getElementById("label").innerHTML = "карп " + mass + " rp. ";
+					changeImage("carp.jpg")
+			    }
+
+			    if (rand == 3){
+					const mass = Math.floor(Math.random() * 11 ) * 10.10 + 2;
+					document.getElementById("label").innerHTML = "рыба клоун " + mass + " rp. ";
+					changeImage("cljwn.png")
+			    }
+
+			    if (rand == 4){
+					const mass = Math.floor(Math.random() * 11 ) * 10.25 + 100;
+					document.getElementById("label").innerHTML = "щука " + mass + " rp. ";
+					changeImage("schuka.jpg")
+			    }
+
+			    if (rand == 5){
+					const mass = Math.floor(Math.random() * 11 ) * 10.25 + 2;
+					document.getElementById("label").innerHTML = "рыба меч " + mass + " rp. ";
+					changeImage("mech.jpg")
+			    }
+
+			    if (rand == 6){
+					const mass = Math.floor(Math.random() * 11 ) * 10.25 + 2;
+					document.getElementById("label").innerHTML = "сом " + mass + " rp. ";
+					changeImage("som.jpg")
+			    }
+
+			    if (rand == 7){
+					const mass = Math.floor(Math.random() * 11 ) * 20.25 + 1000;
+					document.getElementById("label").innerHTML = "акула " + mass + " rp. ";
+					changeImage("akula.png")
+			    }
+
+			    if (rand == 8){
+					const mass = Math.floor(Math.random() * 11 ) * 10.25 + 2;
+					document.getElementById("label").innerHTML = "кит" + mass + " rp. ";
+					changeImage("kit.png")
+			    }
+
+			    if (rand == 9){
+					const mass = Math.floor(Math.random() * 11 ) * 10.25 + 2;
+					document.getElementById("label").innerHTML = "Nike Supreme x Air Force " + mass + " rp. ";
+					changeImage("nike supreme x air force.jpg")
+			    }
+			}
+
+			function changeImage(fishImageName) {
+				document.getElementById("fish").src = fishImageName;
+			}
+		</script>
+
+	</body>	
+
+</html>
